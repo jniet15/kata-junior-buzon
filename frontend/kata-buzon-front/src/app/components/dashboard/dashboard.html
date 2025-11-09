@@ -1,0 +1,195 @@
+<div class="dashboard-container">
+  <!-- Sección de Encabezado -->
+  <div class="dashboard-header">
+    <div class="header-content">
+      <h1>Tablero</h1>
+      <button *ngIf="isRequester" class="btn btn-primary" (click)="createNewRequest()">
+        <span>➕</span>
+        Nueva Solicitud
+      </button>
+    </div>
+  </div>
+
+  <!-- Navegación de Pestañas -->
+  <nav class="tabs-nav">
+    <button 
+      *ngIf="isApprover"
+      class="tab-btn" 
+      [class.active]="activeTab === 'overview'" 
+      (click)="onTabChange('overview')"
+    >
+      Resumen
+    </button>
+    
+    <button 
+      *ngIf="isApprover"
+      class="tab-btn" 
+      [class.active]="activeTab === 'pending'"
+      (click)="onTabChange('pending')"
+    >
+      Aprobación Pendiente
+      <span *ngIf="pendingApprovals.length > 0" class="tab-badge">
+        {{ pendingApprovals.length }}
+      </span>
+    </button>
+    
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'my-requests'"
+      (click)="onTabChange('my-requests')"
+    >
+      Mis Solicitudes
+    </button>
+    
+    <button 
+      *ngIf="isApprover"
+      class="tab-btn" 
+      [class.active]="activeTab === 'all'"
+      (click)="onTabChange('all')"
+    >
+      Todas las Solicitudes
+    </button>
+  </nav>
+
+
+  
+  <!-- Secciones de Contenido -->
+
+  <div class="tab-content">
+    <!-- Resumen (Solo para aprobadores) -->
+    <div *ngIf="activeTab === 'overview' && isApprover" class="overview-section">
+      <div class="section-header">
+        <h2>Resumen de Solicitudes</h2>
+        <p class="section-subtitle">Visión general rápida del estado de las solicitudes</p>
+      </div>
+       <!-- Resumen de Estadísticas -->
+  <div *ngIf="activeTab === 'overview'&& isApprover" class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon"></div>
+      <div class="stat-content">
+        <h3>{{ stats.total }}</h3>
+        <p>Total de Solicitudes</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon"></div>
+      <div class="stat-content">
+        <h3>{{ stats.pending }}</h3>
+        <p>Pendientes</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon"></div>
+      <div class="stat-content">
+        <h3>{{ stats.approved }}</h3>
+        <p>Aprobadas</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon"></div>
+      <div class="stat-content">
+        <h3>{{ stats.rejected }}</h3>
+        <p>Rechazadas</p>
+      </div>
+    </div>
+  </div>
+    </div>
+    <!-- Aprobaciones Pendientes (Solo para aprobadores) -->
+    <div *ngIf="activeTab === 'pending' && isApprover" class="requests-section">
+      <div class="section-header">
+        <h2>Aprobación Pendiente</h2>
+        <p class="section-subtitle">Solicitudes esperando tu revisión y acción</p>
+      </div>
+      
+      <div *ngIf="pendingApprovals.length === 0" class="empty-state">
+        <div class="empty-icon"></div>
+        <h3>No hay solicitudes pendientes</h3>
+        <p>Todas las solicitudes han sido revisadas y procesadas</p>
+      </div>
+      
+      <div class="requests-list">
+        <app-request-card 
+          *ngFor="let request of pendingApprovals"
+          [request]="request"
+          [showActions]="true"
+          (statusUpdate)="onStatusUpdate($event)"
+          class="request-item"
+        >
+        </app-request-card>
+      </div>
+    </div>
+
+    <!-- Mis Solicitudes -->
+    <div *ngIf="activeTab === 'my-requests'" class="requests-section">
+      <div class="section-header">
+        <h2>Mis Solicitudes</h2>
+        <p class="section-subtitle">Solicitudes que has creado o que están asignadas a ti</p>
+      </div>
+      
+      <div *ngIf="userRequests.length === 0" class="empty-state">
+        <div class="empty-icon"></div>
+        <h3>No hay solicitudes aún</h3>
+        <p *ngIf="isRequester">Crea tu primera solicitud para comenzar</p>
+        <p *ngIf="!isRequester">No hay solicitudes asignadas a ti</p>
+      </div>
+      
+      <div class="requests-list">
+        <app-request-card 
+          *ngFor="let request of userRequests"
+          [request]="request"
+          [showActions]="false"
+          class="request-item"
+        >
+        </app-request-card>
+      </div>
+    </div>
+
+    <!-- Todas las Solicitudes (Solo para aprobadores) -->
+    <div *ngIf="activeTab === 'all' && isApprover" class="requests-section">
+      <div class="section-header">
+        <h2>Todas las Solicitudes</h2>
+        <p class="section-subtitle">Historial completo de todas las solicitudes en el sistema</p>
+        
+        <!-- Filtro por estado -->
+        <div class="filter-section">
+          <label for="statusFilter">Filtrar por estado:</label>
+          <select 
+            id="statusFilter"
+            class="filter-select"
+            [(ngModel)]="selectedStatusFilter"
+            (change)="onStatusFilterChange()"
+          >
+            <option value="all">Todos los estados</option>
+            <option value="PENDING">Pendientes</option>
+            <option value="APPROVED">Aprobadas</option>
+            <option value="REJECTED">Rechazadas</option>
+          </select>
+        </div>
+      </div>
+      
+      <div *ngIf="filteredRequests.length === 0" class="empty-state">
+        <div class="empty-icon"></div>
+        <h3>No hay solicitudes</h3>
+        <p *ngIf="selectedStatusFilter !== 'all'">
+          No hay solicitudes con estado "{{ getStatusLabel(selectedStatusFilter) }}"
+        </p>
+        <p *ngIf="selectedStatusFilter === 'all'">
+          No hay solicitudes en el sistema
+        </p>
+      </div>
+      
+      <div class="requests-list">
+        <app-request-card 
+          *ngFor="let request of filteredRequests"
+          [request]="request"
+          [showActions]="false"
+          class="request-item"
+        >
+        </app-request-card>
+      </div>
+    </div>
+  </div>
+</div>

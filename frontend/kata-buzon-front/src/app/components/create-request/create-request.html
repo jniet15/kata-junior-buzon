@@ -1,0 +1,94 @@
+<div class="create-request-container">
+  <div class="page-header">
+    <button class="btn btn-outline" (click)="goBack()">
+      ← Atrás
+    </button>
+    <h1>Crear Nueva Solicitud</h1>
+  </div>
+
+  <div class="create-request-card">
+    <form (ngSubmit)="onSubmit()" #requestForm="ngForm" class="request-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="title">Título de la Solicitud *</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            [(ngModel)]="requestData.title"
+            required
+            class="form-control"
+            placeholder="Ingrese un título claro para su solicitud"
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Descripción *</label>
+        <textarea
+          id="description"
+          name="description"
+          [(ngModel)]="requestData.description"
+          required
+          class="form-control"
+          rows="4"
+          placeholder="Proporcione información detallada sobre su solicitud..."
+        ></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="type">Tipo de Solicitud *</label>
+          <select
+            id="type"
+            name="type"
+            [(ngModel)]="requestData.type"
+            required
+            class="form-control"
+          >
+            <option value="">Seleccione un tipo</option>
+            <option *ngFor="let type of requestTypes" [value]="type.value">
+              {{ type.label }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="assignedTo">Asignar a *</label>
+          <select
+            id="assignedTo"
+            name="assignedTo"
+            [(ngModel)]="requestData.assignedToId"
+            required
+            class="form-control"
+            [disabled]="isLoading"
+          >
+            <option value="">Seleccione un aprobador</option>
+            <option *ngFor="let user of users" [value]="user.id">
+              {{ user.name }} ({{ user.email }})
+            </option>
+          </select>
+          <div *ngIf="isLoading" class="loading-text">Cargando aprobadores...</div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          class="btn btn-outline"
+          (click)="goBack()"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!requestForm.form.valid || isSubmitting"
+        >
+          <span *ngIf="isSubmitting" class="spinner"></span>
+          {{ isSubmitting ? 'Creando...' : 'Crear Solicitud' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

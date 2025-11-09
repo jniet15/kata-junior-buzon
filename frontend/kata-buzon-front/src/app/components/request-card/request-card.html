@@ -1,0 +1,106 @@
+<div class="request-card">
+  <!-- Indicador de estado -->
+  <div class="status-indicator" [class]="'status-' + request.status.toLowerCase()"></div>
+  
+  <!-- Encabezado -->
+  <div class="card-header">
+    <div class="header-main">
+      <h3 class="request-title">{{ request.title }}</h3>
+      <h6 class="request-id">#{{ request.id }}</h6>
+      <div class="request-type">
+        {{ getTypeLabel(request.type) }}
+      </div>
+    </div>
+    <div class="request-status">
+      <span class="status-badge" [class]="'status-' + request.status.toLowerCase()">
+        {{ getStatusLabel(request.status) }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Contenido -->
+  <div class="card-content">
+    <p class="request-description">{{ request.description }}</p>
+    
+    <div class="request-meta">
+      <div class="meta-item">
+        <span class="meta-label">Solicitado por</span>
+        <span class="meta-value">{{ request.createdBy.name || 'Desconocido' }}</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Asignado a</span>
+        <span class="meta-value">{{ request.assignedTo.name || 'Desconocido' }}</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Creado</span>
+        <span class="meta-value">{{ request.createdAt | date:'MMM d, y' }}</span>
+      </div>
+    </div>
+
+    <!-- Historial (solo se muestra al expandir) -->
+    <div class="history-section" *ngIf="showHistory && request.history && request.history.length > 0">
+      <div class="history-header">
+        <h4>Historial de estados</h4>
+      </div>
+      <div class="history-list">
+        <div *ngFor="let item of request.history" class="history-item">
+          <div class="history-dot" [class]="'status-' + item.status.toLowerCase()"></div>
+          <div class="history-content">
+            <div class="history-meta">
+              <strong>{{ item.changedBy.name || 'Sistema' }}</strong>
+              <span class="history-status" [class]="'status-' + item.status.toLowerCase()">
+                {{ item.status }}
+              </span>
+              <span class="history-date">{{ item.createdAt | date:'MMM d, h:mm a' }}</span>
+            </div>
+            <p *ngIf="item.comments" class="history-comments">{{ item.comments }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pie de la tarjeta -->
+  <div class="card-footer">
+    <!-- Toggle Historial -->
+    <button 
+      *ngIf="request.history && request.history.length > 0"
+      class="btn-text" 
+      (click)="toggleHistory()"
+    >
+      <span>{{ showHistory ? '▲' : '▼' }}</span>
+      {{ showHistory ? 'Ocultar historial' : 'Mostrar historial' }} ({{ request.history.length }})
+    </button>
+
+    <!-- Acciones para aprobadores -->
+    <div *ngIf="showActions && request.status === 'PENDING'" class="action-buttons">
+      <button class="btn btn-success btn-sm" (click)="onApprove()">
+        <span></span>
+        Aprobar
+      </button>
+      <button class="btn btn-danger btn-sm" (click)="onReject()">
+        <span></span>
+        Rechazar
+      </button>
+      <button class="btn-text" (click)="toggleComments()">
+        <span></span>
+        Comentarios
+      </button>
+    </div>
+  </div>
+
+  <!-- Sección de comentarios -->
+  <div *ngIf="showComments" class="comments-section">
+    <textarea 
+      [(ngModel)]="comments" 
+      placeholder="Agregar comentarios (opcional)"
+      class="comments-input"
+      rows="3"
+    ></textarea>
+    <div class="comments-actions">
+      <button class="btn-text" (click)="toggleComments()">
+        Cancelar
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="logo">
+        <h2>Buzón de solicitudes</h2>
+      </div>
+      <p class="login-subtitle">Inicia sesión en tu cuenta</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="login-form">
+      <div class="form-group">
+        <label for="email">Correo electrónico</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="loginData.email"
+          required
+          class="form-control"
+          placeholder="Introduce tu correo electrónico"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="loginData.password"
+          required
+          class="form-control"
+          placeholder="Introduce tu contraseña"
+        >
+      </div>
+
+      <button 
+        type="submit" 
+        class="btn btn-primary btn-block"
+        [disabled]="!loginForm.form.valid || isLoading"
+      >
+        <span *ngIf="isLoading" class="spinner"></span>
+        {{ isLoading ? 'Iniciando sesión...' : 'Iniciar sesión' }}
+      </button>
+
+      <div *ngIf="errorMessage" class="alert alert-error">
+        {{ errorMessage }}
+      </div>
+    </form>
+
+    <div class="demo-section">
+      <h3>Acceso rápido (Demo)</h3>
+      <div class="demo-buttons">
+        <button (click)="quickLogin('solicitante')" class="btn btn-outline">
+          Solicitante
+        </button>
+        <button (click)="quickLogin('aprobador')" class="btn btn-outline">
+          Aprobador
+        </button>
+        <button (click)="quickLogin('admin')" class="btn btn-outline">
+          Administrador
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
