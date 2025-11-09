@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=file:/app/prisma/dev.db
+      - JWT_SECRET=password
+      - PORT=3000
+      - APP_URL=http://localhost:3000
+      - EMAIL_ENABLED=true
+      - EMAIL_HOST=localhost
+      - EMAIL_PORT=1025
+      - EMAIL_USER=test
+      - EMAIL_PASSWORD=test
+      - EMAIL_FROM=test@example.com
+      - FRONTEND_URL=http://localhost:4200
+    volumes:
+      - ./backend/src:/app/src
+      - ./backend/prisma:/app/prisma
+      - backend_dev_data:/app/prisma
+    command: npm run start:dev
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/angular.json:/app/angular.json
+      - ./frontend/package.json:/app/package.json
+      - ./frontend/tsconfig.json:/app/tsconfig.json
+    environment:
+      - BACKEND_URL=http://localhost:3000
+    command: npm start -- --host 0.0.0.0 --port 4200
+
+volumes:
+  backend_dev_data:

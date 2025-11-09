@@ -1,0 +1,46 @@
+services:
+  backend:
+    build: ./backend/kata-buzon
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=file:/app/prisma/prod.db
+      - JWT_SECRET=password
+      - PORT=3000
+      - APP_URL=http://localhost:3000
+      - EMAIL_ENABLED=true
+      - EMAIL_HOST=localhost
+      - EMAIL_PORT=1025
+      - EMAIL_USER=test
+      - EMAIL_PASSWORD=test
+      - EMAIL_FROM=test@example.com
+      - FRONTEND_URL=http://localhost
+    volumes:
+      - backend_data:/app/prisma
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - app-network
+
+  frontend:
+    build: ./frontend/kata-buzon-front
+    ports:
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      - BACKEND_URL=http://backend:3000
+    networks:
+      - app-network
+
+volumes:
+  backend_data:
+
+networks:
+  app-network:
+    driver: bridge
