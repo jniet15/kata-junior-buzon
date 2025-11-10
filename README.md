@@ -7,7 +7,7 @@ Sistema **backend** para la gestión de flujos de trabajo y procesos de aprobaci
 
 ## 🧩 Descripción
 
-**Kata Buzón** es una plataforma robusta diseñada para automatizar procesos de aprobación, permitiendo a las organizaciones gestionar solicitudes, flujos de trabajo y notificaciones de manera eficiente.
+**Buzón de solicitudes** es una plataforma robusta diseñada para automatizar procesos de aprobación, permitiendo a las organizaciones gestionar solicitudes, flujos de trabajo y notificaciones de manera eficiente.
 
 ---
 
@@ -22,7 +22,7 @@ Sistema **backend** para la gestión de flujos de trabajo y procesos de aprobaci
 - **Passport** – Estrategias de autenticación  
 - **Class Validator** – Validación de DTOs  
 
-### 💻 Frontend *(por implementar)*
+### 💻 Frontend
 - **Angular** – Interfaz de usuario  
 - **CSS** – Estilos y diseño  
 
@@ -39,24 +39,6 @@ Sistema **backend** para la gestión de flujos de trabajo y procesos de aprobaci
 - **Observer Pattern** – Sistema de eventos y notificaciones  
 
 ### 📁 Estructura del Proyecto
-
-```text
-src/
-├── domain/           # Entidades y lógica de negocio
-│   ├── entities/     # Approval, User, Workflow
-│   ├── value-objects/# ApprovalStatus, Priority
-│   └── events/       # Domain Events
-├── application/      # Casos de uso y servicios
-│   ├── services/     # ApprovalService, NotificationService
-│   └── dto/          # Data Transfer Objects
-├── infrastructure/   # Implementaciones concretas
-│   ├── persistence/  # Repositories con Prisma
-│   ├── external/     # APIs externas
-│   └── config/       # Configuración
-└── presentation/     # Controladores y endpoints
-    ├── controllers/  # ApprovalController, UserController
-    └── decorators/   # Validaciones personalizadas
-````
 
 ---
 
