@@ -38,8 +38,6 @@ Sistema **backend** para la gestión de flujos de trabajo y procesos de aprobaci
 - **Strategy Pattern** – Múltiples estrategias de notificación  
 - **Observer Pattern** – Sistema de eventos y notificaciones  
 
-### 📁 Estructura del Proyecto
-
 ---
 
 ## 🚀 Instalación y Configuración
