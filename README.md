@@ -1,8 +1,4 @@
-Aquí tienes el texto convertido en un **README.md** bien estructurado en formato Markdown, con estilo profesional y organizado para un repositorio de GitHub:
 
----
-
-````markdown
 # 📬 Kata Junior Buzón - Sistema de Gestión de Aprobaciones
 
 Sistema **backend** para la gestión de flujos de trabajo y procesos de aprobación en organizaciones, desarrollado con **NestJS** y **arquitectura hexagonal**.
@@ -234,5 +230,3 @@ Este proyecto está bajo la **Licencia MIT** – consulta el archivo [LICENSE](L
 ## 👥 Autores
 
 * **David Nieto** – [jniet15](https://github.com/jniet15)
-
----
