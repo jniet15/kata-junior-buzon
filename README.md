@@ -1,7 +1,7 @@
 
 # 📬 Kata Junior Buzón - Sistema de Gestión de Aprobaciones
 
-Sistema **backend** para la gestión de flujos de trabajo y procesos de aprobación en organizaciones, desarrollado con **NestJS** y **arquitectura hexagonal**.
+Sistema **fullstack** para la gestión de flujos de trabajo y procesos de aprobación en organizaciones, desarrollado con **NestJS y Angular** usando **arquitectura hexagonal**.
 
 ---
 
