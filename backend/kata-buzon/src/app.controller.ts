@@ -7,13 +7,13 @@ import { Public } from './auth/auth.controller';
 export class ExampleController {
   
   @Get('public')
-  @Public() // Ruta pública - no requiere autenticación
+  @Public() 
   getPublic() {
     return { message: 'Esta ruta es pública' };
   }
 
   @Get('protected')
-  @UseGuards(JwtAuthGuard) // Ruta protegida
+  @UseGuards(JwtAuthGuard) 
   getProtected(@CurrentUser() user: any) {
     return { 
       message: 'Esta ruta es protegida', 
@@ -23,7 +23,6 @@ export class ExampleController {
 
   @Get('profile')
   getProfile(@CurrentUser('userId') userId: string) {
-    // Acceder a una propiedad específica del usuario
     return { userId };
   }
 }

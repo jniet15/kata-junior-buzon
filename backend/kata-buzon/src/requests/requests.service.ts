@@ -20,7 +20,7 @@ export class RequestsService {
        if (!Object.values(RequestType).includes(createRequestDto.type as any)) {
         throw new BadRequestException('Tipo de solicitud inválido');
       }
-      // Verificar que el usuario asignado existe
+      
       const assignedUser = await this.prisma.user.findUnique({
         where: { id: createRequestDto.assignedToId },
       });
@@ -29,7 +29,7 @@ export class RequestsService {
         throw new NotFoundException('Usuario asignado no encontrado');
       }
 
-      // Verificar que no se está asignando a sí mismo
+      
       if (createdById === createRequestDto.assignedToId) {
         throw new ForbiddenException('No puedes asignar la solicitud a ti mismo');
       }
@@ -53,7 +53,7 @@ export class RequestsService {
 
       this.logger.log(`Request created: ${request.id} by user: ${createdById}`);
 
-      // Notificar al aprobador
+      
       await this.notificationsService.notifyNewRequest(request);
 
       this.notificationsService.logNotification(
@@ -190,19 +190,19 @@ export class RequestsService {
         throw new NotFoundException('Request not found');
       }
 
-      // Verificar que el usuario tiene permisos para aprobar/rechazar
+      
       if (request.assignedToId !== changedById) {
         throw new ForbiddenException('No tienes permisos para actualizar esta solicitud');
       }
 
-      // Verificar que la solicitud está pendiente
+      
       if (request.status !== RequestStatus.PENDING) {
         throw new ForbiddenException('Solo se pueden actualizar solicitudes pendientes');
       }
 
-      // Usar transacción para asegurar consistencia
+      
       const updatedRequest = await this.prisma.$transaction(async (tx) => {
-        // Crear entrada en el histórico
+        
         await tx.requestHistory.create({
           data: {
             requestId: id,
@@ -212,7 +212,7 @@ export class RequestsService {
           },
         });
 
-        // Actualizar estado de la solicitud
+        
         return tx.request.update({
           where: { id },
           data: {
@@ -239,7 +239,7 @@ export class RequestsService {
 
       this.logger.log(`Request status updated: ${id} to ${updateRequestStatusDto.status} by user: ${changedById}`);
 
-      // Notificar al solicitante
+      
       await this.notificationsService.notifyStatusUpdate(updatedRequest);
       this.notificationsService.logNotification(
         `Status update notification sent for: ${id}`,
@@ -294,7 +294,7 @@ export class RequestsService {
     return this.prisma.user.findMany({
       where: {
         id: {
-          not: currentUserId // Excluir al usuario actual
+          not: currentUserId 
         }
       },
       select: {

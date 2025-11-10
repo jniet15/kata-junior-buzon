@@ -14,7 +14,7 @@
   transform: translateY(-1px);
 }
 
-/* Status Indicator */
+
 .status-indicator {
   position: absolute;
   top: 0;
@@ -160,7 +160,7 @@
   font-weight: 500;
 }
 
-/* History Section */
+
 .history-section {
   border-top: 1px solid var(--color-gray-200);
   padding-top: 1rem;
@@ -248,7 +248,6 @@
   border-left: 2px solid var(--color-accent);
 }
 
-/* Footer */
 .card-footer {
   padding: 0.75rem 1.25rem;
   border-top: 1px solid var(--color-gray-200);

@@ -246,7 +246,7 @@
   font-size: 14px;
   opacity: 0.7;
 }
-/* Estilos para la sección de filtros */
+
 .filter-section {
   display: flex;
   align-items: center;
@@ -287,7 +287,7 @@
   border-color: var(--color-gray-400);
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .filter-section {
     flex-direction: column;

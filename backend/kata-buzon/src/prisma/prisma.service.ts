@@ -22,10 +22,6 @@ export class PrismaService
     await this.$disconnect();
     console.log('Prisma disconnected from database');
   }
-
-  /**
-   * Método para limpiar la base de datos (útil para testing)
-   */
   async cleanDatabase() {
     if (process.env.NODE_ENV === 'production') return;
     
@@ -39,9 +35,6 @@ export class PrismaService
     );
   }
 
-  /**
-   * Método para transacciones complejas
-   */
   async transaction(callback: (tx: any) => Promise<any>) {
     return this.$transaction(callback);
   }

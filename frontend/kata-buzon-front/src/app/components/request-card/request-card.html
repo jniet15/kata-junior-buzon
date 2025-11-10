@@ -1,8 +1,8 @@
 <div class="request-card">
-  <!-- Indicador de estado -->
+  
   <div class="status-indicator" [class]="'status-' + request.status.toLowerCase()"></div>
   
-  <!-- Encabezado -->
+  
   <div class="card-header">
     <div class="header-main">
       <h3 class="request-title">{{ request.title }}</h3>
@@ -18,7 +18,7 @@
     </div>
   </div>
 
-  <!-- Contenido -->
+  
   <div class="card-content">
     <p class="request-description">{{ request.description }}</p>
     
@@ -49,7 +49,7 @@
             <div class="history-meta">
               <strong>{{ item.changedBy.name || 'Sistema' }}</strong>
               <span class="history-status" [class]="'status-' + item.status.toLowerCase()">
-                {{ item.status }}
+                 {{ getStatusLabel(request.status) }}
               </span>
               <span class="history-date">{{ item.createdAt | date:'MMM d, h:mm a' }}</span>
             </div>
@@ -60,9 +60,9 @@
     </div>
   </div>
 
-  <!-- Pie de la tarjeta -->
+  
   <div class="card-footer">
-    <!-- Toggle Historial -->
+    
     <button 
       *ngIf="request.history && request.history.length > 0"
       class="btn-text" 
@@ -72,7 +72,7 @@
       {{ showHistory ? 'Ocultar historial' : 'Mostrar historial' }} ({{ request.history.length }})
     </button>
 
-    <!-- Acciones para aprobadores -->
+    
     <div *ngIf="showActions && request.status === 'PENDING'" class="action-buttons">
       <button class="btn btn-success btn-sm" (click)="onApprove()">
         <span></span>
@@ -89,7 +89,7 @@
     </div>
   </div>
 
-  <!-- Sección de comentarios -->
+  
   <div *ngIf="showComments" class="comments-section">
     <textarea 
       [(ngModel)]="comments" 

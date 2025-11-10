@@ -11,13 +11,13 @@ import { AppService } from './app.service';
 
 @Module({
   imports: [
-    // ConfigModule para variables de entorno
+    
     ConfigModule.forRoot({
-      isGlobal: true, // Hace que ConfigService esté disponible en toda la app
+      isGlobal: true, 
       envFilePath: '.env',
     }),
     
-    // Módulos de la aplicación
+    
     PrismaModule,
     AuthModule,
     RequestsModule,
@@ -28,7 +28,7 @@ import { AppService } from './app.service';
     AppService,
     {
       provide: APP_GUARD,
-      useClass: JwtAuthGuard, // Guard global JWT para todas las rutas
+      useClass: JwtAuthGuard, 
     },
   ],
 })

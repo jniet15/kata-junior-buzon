@@ -74,7 +74,7 @@ export class DashboardComponent implements OnInit {
 
   onTabChange(tab: 'overview' | 'pending' | 'my-requests' | 'all') {
     this.activeTab = tab;
-    // Resetear filtro cuando se cambia de pestaña
+    
     if (tab === 'all') {
       this.selectedStatusFilter = 'all';
       this.applyStatusFilter();
@@ -110,7 +110,7 @@ export class DashboardComponent implements OnInit {
       status: event.status,
       comments: event.comments
     }).subscribe(() => {
-      this.loadDashboardData(); // Reload all data
+      this.loadDashboardData();
     });
   }
 

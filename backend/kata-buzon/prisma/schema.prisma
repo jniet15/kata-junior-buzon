@@ -26,7 +26,7 @@ model Request {
   title       String
   description String
   type        String   
-  status      String   @default("PENDING") // PENDING, APPROVED, REJECTED
+  status      String   @default("PENDING") 
   
   // Relaciones
   createdById String
@@ -46,7 +46,7 @@ model RequestHistory {
   requestId   String
   request     Request  @relation(fields: [requestId], references: [id], onDelete: Cascade)
   
-  status      String   // PENDING, APPROVED, REJECTED
+  status      String   
   comments    String?
   
   changedById String

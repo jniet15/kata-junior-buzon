@@ -4,7 +4,7 @@ export interface User {
   email: string;
 }
 
-// Cambiar enums por tipos string con valores constantes
+
 export const RequestType = {
   DEPLOYMENT: 'DEPLOYMENT',
   ACCESS: 'ACCESS',
@@ -43,7 +43,7 @@ export interface Request {
   history: RequestHistory[];
 }
 
-// DTOs para el frontend
+
 export interface CreateRequestDto {
   title: string;
   description: string;

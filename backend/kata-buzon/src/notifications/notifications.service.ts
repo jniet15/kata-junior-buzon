@@ -24,7 +24,7 @@ export class NotificationsService {
 
     this.transporter = nodemailer.createTransport(emailConfig);
 
-    // Verificar la configuración del transporter
+    
     this.verifyTransporter();
   }
 
@@ -61,18 +61,18 @@ export class NotificationsService {
 
   private async sendEmail(mailOptions: any, type: string) {
     try {
-      // En producción, enviaríamos el email real
+      
       if (this.configService.get('NODE_ENV') === 'production') {
         const info = await this.transporter.sendMail(mailOptions);
         this.logger.log(`Email sent successfully (${type}): ${info.messageId}`);
         return info;
       } else {
-        // En desarrollo, simulamos el envío y mostramos el preview
+       
         this.logger.log(`[DEV] Email simulation (${type}):`);
         this.logger.log(`To: ${mailOptions.to}`);
         this.logger.log(`Subject: ${mailOptions.subject}`);
         
-        // Para desarrollo, puedes obtener la URL de preview de Ethereal
+        
         const testAccount = await nodemailer.createTestAccount();
         if (this.configService.get('EMAIL_USER') === testAccount.user) {
           const previewUrl = nodemailer.getTestMessageUrl({} as any);
@@ -175,7 +175,7 @@ export class NotificationsService {
     `;
   }
 
-  // Método adicional para notificaciones internas (log)
+ 
   logNotification(message: string, metadata?: any) {
     this.logger.log(`Notification: ${message}`, metadata);
   }

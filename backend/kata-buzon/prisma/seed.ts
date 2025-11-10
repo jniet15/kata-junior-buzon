@@ -6,12 +6,12 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('Starting seed...');
 
-  // Eliminar datos existentes para empezar limpio
+  
   await prisma.requestHistory.deleteMany();
   await prisma.request.deleteMany();
   await prisma.user.deleteMany();
 
-  // Crear usuarios de prueba con contraseñas conocidas
+  
   const user1 = await prisma.user.create({
     data: {
       email: 'solicitante@example.com',
@@ -38,7 +38,7 @@ async function main() {
 
   console.log('Users created with passwords: password123');
 
-  // Crear algunas solicitudes de ejemplo
+ 
   const request1 = await prisma.request.create({
     data: {
       title: 'Despliegue en Producción',
